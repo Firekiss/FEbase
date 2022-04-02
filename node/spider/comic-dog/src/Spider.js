@@ -27,13 +27,14 @@ class Spider {
 		// 解析漫画列表
 		console.log(`===== 解析《${this.info.title}》漫画列表 =====`)
 		const chapters = this.getChapters($);
-		// 开始逐话下载
-		for (let i = (this.options.beginChapter || 0); i < chapters.length; i++) {
+		// 找到已经下载的章节索引继续往下下载
+		let i = this.getCountineChapter(chapters);
+		for (; i < chapters.length; i++) {
 			// 下载下一话前休息5秒钟😁，让服务器也休息一下
 			await this.wait(5000);
 			await this.startOne(chapters[i]);
 			console.log(`***************************************************************`);
-			console.log(`进度${Math.ceil(i / (chapters.length) * 100)}%`);
+			console.log(`        进度${Math.ceil(i / (chapters.length) * 100)}%`);
 			console.log(`***************************************************************`)
 		}
 
@@ -67,6 +68,10 @@ class Spider {
 				if (flag) break;
 			}
 		}
+	}
+
+	getDir() {
+		return path.join(this.options.dist, this.info.title);
 	}
 
 	getComicInfo($) {
@@ -115,10 +120,10 @@ class Spider {
 	}
 
 	createFolder() {
-		const dist = path.join(this.options.dist, this.info.title);
+		const dir = this.getDir();
 		// 新建漫画文件夹
-		if (!fs.existsSync(dist)) {
-			fs.mkdirSync(dist);
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
 			console.log(`√√√√√ 文件夹${this.info.title}创建成功!`)
 		} else {
 			console.log(`√√√√√ 文件夹${this.info.title}已经存在,无需重复创建`);
@@ -137,8 +142,7 @@ class Spider {
 				// 等待2秒后再开始下图
 				await this.wait(1000);
 				console.log(`-----> 下载 ${image.url}`);
-				const dir = path.join(this.options.dist, this.info.title);
-				await this.pTimeout(download(image.url, dir, {
+				await this.pTimeout(download(image.url, this.getDir(), {
 					filename: `${image.title}.jpg`
 				}), 30000, `××××× 哎呀, ${image.url}下载超时, 重新开始下载`);
 				flag = true;
@@ -166,6 +170,19 @@ class Spider {
 		});	
 	}
 
+	// 获取自动断点续传的章节索引
+	getCountineChapter(chapters) {
+		const dir = this.getDir();
+		const lastFile = fs.readdirSync(dir)[0];
+		
+		if (lastFile) {
+			const countineChapter = chapters.find(c => lastFile.indexOf(c.title) > -1);
+			if (countineChapter) {
+				return chapters.indexOf(countineChapter);
+			}
+		}
+		return 0;
+	}
 }
 
 module.exports = Spider;
