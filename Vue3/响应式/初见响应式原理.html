@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 源数据
+		let person = {
+			name: '张三',
+			age: 18
+		}
+
+		const p = new Proxy(person, {
+			get(target, propName) {
+				console.log('读取了p上面的属性', target, propName)
+				return Reflect.get(target, propName)
+			},
+			set(target, propName, value) {
+				console.log('修改了p上面的属性', target, propName, value)
+				Reflect.set(target, propName, value)
+			},
+			deleteProperty(target, propName) {
+				console.log('删除了p上面的属性', target, propName)
+				return Reflect.defineProperty(target, propName)
+			}
+		})
+	</script>
+</body>
+</html> 
