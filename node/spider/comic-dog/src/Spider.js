@@ -28,7 +28,7 @@ class Spider {
 		console.log(`===== 解析《${this.info.title}》漫画列表 =====`)
 		const chapters = this.getChapters($);
 		// 开始逐话下载
-		for (let i = 0; i < chapters.length; i++) {
+		for (let i = (this.options.beginChapter || 0); i < chapters.length; i++) {
 			// 下载下一话前休息5秒钟😁，让服务器也休息一下
 			await this.wait(5000);
 			await this.startOne(chapters[i]);
