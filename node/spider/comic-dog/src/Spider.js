@@ -10,10 +10,11 @@ class Spider {
 
 	constructor(options) {
 		this.options = options;
+		this.startAll();
 	}
 
 	async startAll() {
-		console.log('===== 开始爬取所有漫画 =====')
+		console.log('===== 开始爬取漫画 =====')
 		// 获取初始页面的html
 		const res = await axios.get(this.options.url);
 		// 开始解析html
@@ -34,7 +35,7 @@ class Spider {
 			await this.wait(5000);
 			await this.startOne(chapters[i]);
 			console.log(`***************************************************************`);
-			console.log(`        进度${Math.ceil(i / (chapters.length) * 100)}%`);
+			console.log(`        进度${(i / (chapters.length - 1) * 100).toFixed(2)}%`);
 			console.log(`***************************************************************`)
 		}
 
@@ -64,6 +65,7 @@ class Spider {
 				flag = true;
 			} catch (error) {
 				flag = false;
+				console.log(`${chapter.title}下载异常 >>>>>>>>>>`, error);
 			} finally {
 				if (flag) break;
 			}
@@ -148,7 +150,7 @@ class Spider {
 				flag = true;
 			} catch (error) {
 				flag = false;
-				console.log(`${image.url}下载失败`);
+				console.log(`${image.url}下载异常 >>>>>>>>>>`, error);
 			} finally {
 				if (flag) break;
 			}
