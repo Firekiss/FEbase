@@ -40,6 +40,7 @@ class Spider {
 		}
 
 		console.log('===== 全部下载完毕！开始享用漫画! ======');
+		process.exit();
 	}
 
 	async startOne(chapter) {
