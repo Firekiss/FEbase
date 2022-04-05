@@ -147,7 +147,7 @@ class Spider {
 				console.log(`-----> 下载 ${image.url}`);
 				await this.pTimeout(download(image.url, this.getDir(), {
 					filename: `${image.title}.jpg`
-				}), 30000, `××××× 哎呀, ${image.url}下载超时, 重新开始下载`);
+				}), 10000, `××××× 哎呀, ${image.url}下载超时, 重新开始下载`);
 				flag = true;
 			} catch (error) {
 				flag = false;
