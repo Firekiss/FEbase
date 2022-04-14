@@ -1,4 +1,6 @@
-type MyPick<T, K> = any
+type MyPick<T, K extends keyof T> = {
+	[P in K]: T[P]
+}
 
 // mapped types
 // https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#handbook-content
@@ -30,5 +32,11 @@ const MyArray = [
 ];
 type Person = typeof MyArray[number];
 // 将数组转变为联合类型
-const APP = ['TaoBao', 'Tmall', 'Alipay'] as const;
+const APP = ['TaoBao', 'Tmall', 'Alipay'] as const;  // 首先是使用 as const 将数组变为 readonly 的元组类型
 type app = typeof APP[number];
+
+// extends 的使用 
+// 条件判断 类似于三元运算符判断真假  用于类和接口的判断 A extend B B中包含的A中肯定有 
+// 联合类型 extends 另外一个类型  必须联合类型里面拆分出来的每一项都通过验证才行
+
+// 泛型 extend 类型 然后泛型传入的是联合类型 那么最后得到的类型是 联合类型和extends后类型每一项对比结果的组合类型
