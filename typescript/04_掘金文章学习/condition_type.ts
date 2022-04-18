@@ -28,6 +28,12 @@ type b = 'a' | 'b' | 'c' extends 'a' | 'b' | 'c' | 'd' ? 'a' : never;
 type Length1<T> = T extends { length: number} ? T['length'] : 0;
 type Arr = Length1<{
 	length: number
-}>
+}>;
 
+interface IdLabel {
+	id: number
+}
 
+interface NameLabel {
+	name: string
+}
