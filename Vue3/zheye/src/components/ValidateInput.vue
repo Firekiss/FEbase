@@ -33,6 +33,7 @@ export default defineComponent({
 			error: false,
 			message: ''
 		});
+		
 		const validateInput = () => {
 			if (props.rules) {
 				const allPassed = props.rules.every(rule => {
@@ -54,6 +55,7 @@ export default defineComponent({
 				inputRef.error = !allPassed;
 			}
 		}
+
 		const updateValue = (e: Event) => {
 			const targetValue = (e.target as HTMLInputElement).value;
 			inputRef.value = targetValue;
