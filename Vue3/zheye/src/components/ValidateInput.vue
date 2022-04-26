@@ -54,7 +54,7 @@ export default defineComponent({
 				inputRef.error = !allPassed;
 			}
 		}
-		const updateValue = (e: KeyboardEvent) => {
+		const updateValue = (e: Event) => {
 			const targetValue = (e.target as HTMLInputElement).value;
 			inputRef.value = targetValue;
 			context.emit('update:modelValue', targetValue);
