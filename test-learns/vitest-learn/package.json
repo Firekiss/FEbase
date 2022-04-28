@@ -1,0 +1,26 @@
+{
+  "name": "vitest-learn",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.29",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "@vue/test-utils": "^2.0.0-rc.21",
+    "jsdom": "^19.0.0",
+    "msw": "^0.39.2",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vitest": "^0.10.0",
+    "vue-tsc": "^0.29.8"
+  }
+}
