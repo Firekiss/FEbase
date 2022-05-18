@@ -22,3 +22,4 @@ let dog: Dog = {
 // 协变
 animal = dog
 
+
